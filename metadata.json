@@ -1,0 +1,6 @@
+{
+  "name": "Close From Far",
+  "description": "A private digital space for long-distance couples to write and share emotional love letters.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
