@@ -203,7 +203,7 @@ export default function App() {
       `${recipient} last opened the sanctuary 3 minutes ago ❤️`,
       `${recipient} is looking at the same moon right now... 🌙`,
       `The sky in ${recipient === partnerConfig.loverOne ? partnerConfig.loverOneCity : partnerConfig.loverTwoCity} matches your thoughts... ✨`,
-      `${recipient} smiled while reading your words...`,
+      `💌 One letter. Thousands of miles. One smile.`,
       `You are ${recipient}'s sweetest thought...`
     ];
 
@@ -782,12 +782,12 @@ export default function App() {
           <h1 className={`font-serif text-[36px] sm:text-[56px] md:text-[60px] tracking-[-0.4px] leading-none font-extrabold mb-4 max-w-2xl transition-colors duration-1000 ${
             isNightMode ? "text-white" : "text-[#3E2723]"
           }`} id="app-title">
-            Write something they'll keep forever.
+            Some words deserve more than a text.
           </h1>
           <p className={`text-base sm:text-lg max-w-xl mx-auto font-sans tracking-wide leading-relaxed transition-colors duration-1000 ${
             isNightMode ? "text-[#D3C4B4]/85" : "text-[#5D4037]/75"
           }`} id="app-subtitle">
-            For the words that deserve more than a text.
+            Because some feelings shouldn't disappear in a chat.
           </p>
         </section>
 

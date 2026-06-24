@@ -202,14 +202,14 @@ export default function SanctuaryIntro({
             <h1 className={`font-serif text-[36px] md:text-[56px] font-extrabold tracking-[-0.4px] leading-none mb-4 select-none max-w-[580px] ${
               isNightMode ? "text-white" : "text-[#3E2723]"
             }`}>
-              Write something they'll keep forever.
+              Some words deserve more than a text.
             </h1>
 
             {/* Subheadline / paragraph */}
             <p className={`text-base md:text-lg max-w-[500px] mx-auto mb-10 font-sans tracking-wide leading-relaxed ${
               isNightMode ? "text-[#D3C4B4]/85" : "text-[#5D4037]/75"
             }`}>
-              For the words that deserve more than a text.
+              Because some feelings shouldn't disappear in a chat.
             </p>
 
             {/* Action */}
