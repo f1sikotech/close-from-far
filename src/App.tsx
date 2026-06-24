@@ -15,9 +15,11 @@ import {
   Edit2,
   Check,
   Compass,
-  Feather
+  Feather,
+  Share2
 } from "lucide-react";
 import SanctuaryIntro from "./components/SanctuaryIntro";
+import { trackEvent } from "./utils/analytics";
 
 interface Letter {
   id: string;
@@ -150,6 +152,17 @@ export default function App() {
   const [isFocused, setIsFocused] = useState(false);
   const [sendingState, setSendingState] = useState<"idle" | "folding" | "envelope" | "flying" | "delivered">("idle");
   const [presenceText, setPresenceText] = useState("");
+  const [hasTrackedStarted, setHasTrackedStarted] = useState(false);
+  const [copiedInvite, setCopiedInvite] = useState(false);
+  const [copiedLetterId, setCopiedLetterId] = useState<string | null>(null);
+
+  // Track if page was opened from shared/invite link
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("invite") || params.get("letter") || params.get("shared") || params.get("share")) {
+      trackEvent("shared_link_opened");
+    }
+  }, []);
 
   // Sync to local storage
   useEffect(() => {
@@ -233,6 +246,10 @@ export default function App() {
   const handleSendLetter = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newContent.trim() || sendingState !== "idle") return;
+
+    // Track letter sent event
+    trackEvent("letter_sent");
+    setHasTrackedStarted(false);
 
     // Save form data into closure so we append the correct letter when timeline completes
     const contentToSave = newContent.trim();
@@ -588,6 +605,33 @@ export default function App() {
               </div>
             </button>
 
+            {/* Copy Invite Link / Share Sanctuary Button */}
+            <button
+              onClick={() => {
+                const inviteUrl = `${window.location.origin}${window.location.pathname}?invite=true`;
+                navigator.clipboard.writeText(inviteUrl);
+                trackEvent("share_clicked", { type: "invite_link" });
+                setCopiedInvite(true);
+                setTimeout(() => setCopiedInvite(false), 2500);
+              }}
+              className={`transition-all duration-150 p-1.5 rounded-lg hover:-translate-y-0.5 hover:shadow-xs relative ${
+                isNightMode 
+                  ? "text-[#E69B82] hover:text-[#FFA726] hover:bg-[#3E2723]/60" 
+                  : "text-[#5D4037] hover:text-[#B71C1C] hover:bg-[#F2ECE4]/50"
+              }`}
+              title="Copy sanctuary invite link"
+              id="share-sanctuary-trigger"
+            >
+              {copiedInvite ? <Check size={15} className="text-emerald-500 animate-pulse" /> : <Share2 size={15} />}
+              {copiedInvite && (
+                <span className={`absolute bottom-full mb-1.5 right-0 text-[10px] px-2.5 py-1 rounded-md shadow-md z-30 font-sans tracking-wide transition-colors ${
+                  isNightMode ? "bg-[#331E1B] text-[#FFA726] border border-[#8D5E54]/30" : "bg-white text-[#B71C1C] border border-[#ECD9D6]"
+                }`}>
+                  Invite Link Copied!
+                </span>
+              )}
+            </button>
+
             <button
               onClick={() => {
                 setTempConfig({ ...partnerConfig });
@@ -726,31 +770,25 @@ export default function App() {
       <main className="w-full max-w-4xl mx-auto px-4 mt-6 md:px-6 md:mt-8 relative z-10" id="main-content-area">
         
         {/* HERO SECTION */}
-        <section className="text-center mb-6 sm:mb-10 animate-entrance flex flex-col items-center relative" id="hero-section">
-          {/* Soft diagonal beam of sunlight/candlelight behind the title - almost invisible */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[45%] w-[480px] h-[220px] pointer-events-none -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,236,179,0.18)_0%,rgba(244,143,177,0.03)_40%,transparent_80%)] blur-[45px] transform -rotate-12 rounded-full transition-opacity duration-1000" />
-          
+        <section className="text-center mb-10 sm:mb-14 animate-entrance flex flex-col items-center relative" id="hero-section">
           {/* Subtle logo emblem */}
-          <div className={`inline-flex items-center justify-center p-1.5 sm:p-2 rounded-full transition-all duration-700 ${
-            isNightMode 
-              ? "bg-[#331E1B] border-[#8D5E54]/40 text-[#FFA726] shadow-[0_0_12px_rgba(255,167,38,0.15)]" 
-              : "bg-[#FBE4E1] border border-[#ECD9D6] text-[#B71C1C]"
+          <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-6 font-serif text-xs uppercase tracking-widest select-none ${
+            isNightMode ? "text-[#E69B82] bg-white/5 border border-white/5" : "text-[#B71C1C] bg-red-50/60 border border-red-100"
           }`}>
-            <Heart fill="currentColor" size={16} className="animate-pulse" />
+            <span>❤️</span>
+            <span className="font-semibold">Close From Far</span>
           </div>
-          <h1 className={`font-serif text-3xl sm:text-5xl md:text-6xl tracking-tight font-light mt-2 mb-2 sm:mb-3 transition-colors duration-1000 ${
-            isNightMode ? "text-[#F5EFE6]" : "text-[#3E2723]"
+
+          <h1 className={`font-serif text-[36px] sm:text-[56px] md:text-[60px] tracking-[-0.4px] leading-none font-extrabold mb-4 max-w-2xl transition-colors duration-1000 ${
+            isNightMode ? "text-white" : "text-[#3E2723]"
           }`} id="app-title">
-            Close From Far
+            Write something they'll keep forever.
           </h1>
-          <p className={`mt-1 text-xs sm:text-base font-sans tracking-wide italic max-w-md mx-auto transition-colors duration-1000 ${
+          <p className={`text-base sm:text-lg max-w-xl mx-auto font-sans tracking-wide leading-relaxed transition-colors duration-1000 ${
             isNightMode ? "text-[#D3C4B4]/85" : "text-[#5D4037]/75"
           }`} id="app-subtitle">
-            “A private space where distance becomes letters.”
+            For the words that deserve more than a text.
           </p>
-          <div className={`w-10 sm:w-12 h-[1px] mt-4 sm:mt-6 opacity-30 transition-colors duration-1000 ${
-            isNightMode ? "bg-[#FF8F00]" : "bg-[#B71C1C]"
-          }`}></div>
         </section>
 
         {/* LETTER COMPOSER */}
@@ -838,7 +876,16 @@ export default function App() {
                   {/* Typing area with generous cotton paper padding and writing margin */}
                   <textarea
                     value={newContent}
-                    onChange={(e) => setNewContent(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setNewContent(val);
+                      if (val.trim().length > 0 && !hasTrackedStarted) {
+                        trackEvent("letter_started");
+                        setHasTrackedStarted(true);
+                      } else if (val.trim().length === 0) {
+                        setHasTrackedStarted(false);
+                      }
+                    }}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                     placeholder="Write what your heart wants to say…"
@@ -1426,6 +1473,23 @@ export default function App() {
                     className="text-[#B71C1C]" 
                   />
                   <span className="font-mono text-[11px]">Pulse Love ({activeLetter.reactions})</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    const letterUrl = `${window.location.origin}${window.location.pathname}?letter=${activeLetter.id}`;
+                    navigator.clipboard.writeText(letterUrl);
+                    trackEvent("share_clicked", { type: "letter", letter_id: activeLetter.id });
+                    setCopiedLetterId(activeLetter.id);
+                    setTimeout(() => setCopiedLetterId(null), 2500);
+                  }}
+                  className="flex items-center gap-1.5 text-xs text-[#5D4037] hover:text-[#B71C1C] transition-colors bg-white/60 hover:bg-[#FBE4E1] py-1 px-3 rounded-full border border-[#F2ECE4] active:scale-95"
+                  title="Copy direct link to this letter"
+                >
+                  <Share2 size={12} />
+                  <span className="font-mono text-[11px]">
+                    {copiedLetterId === activeLetter.id ? "Copied!" : "Share Letter"}
+                  </span>
                 </button>
 
                 {confirmDeleteId === activeLetter.id ? (

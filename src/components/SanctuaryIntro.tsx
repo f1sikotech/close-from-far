@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Heart, Compass, Sparkles, Coffee, Moon, Sun, ArrowRight, X } from "lucide-react";
+import { trackEvent } from "../utils/analytics";
 
 interface SanctuaryIntroProps {
   partnerConfig: {
@@ -101,6 +102,7 @@ export default function SanctuaryIntro({
     // Quick skip applies defaults
     setRecipient(writingFor);
     setSigner("Firdavs");
+    trackEvent("sanctuary_created");
     onComplete();
   };
 
@@ -116,31 +118,26 @@ export default function SanctuaryIntro({
     }));
     setRecipient(writingFor);
     setSigner("Firdavs");
+    trackEvent("sanctuary_created");
     onComplete();
   };
 
   const nicknames = [
     "❤️ My Love",
-    "🌙 Moon",
-    "✨ My Person",
-    "💌 Soulmate",
-    "🌸 Dearest",
+    "🌙 My Moon",
+    "✨ My Person"
   ];
 
   const reasons = [
     { title: "I miss someone", desc: "Keep their radiant presence near in daily life." },
-    { title: "I want to surprise them", desc: "A cozy secret drawer filled with love letters." },
-    { title: "I want to create memories", desc: "To treasure forever in our virtual wooden box." },
     { title: "I'm in a long-distance relationship", desc: "Bridging the infinite miles between hearts." },
-    { title: "I just want to write something beautiful", desc: "Slow, focused letters back to simpler days." },
+    { title: "I just want to write something beautiful", desc: "Slow, focused letters back to simpler days." }
   ];
 
   const feels = [
     { name: "☀ Morning Light", mode: "day", desc: "Warm dawn glow on clean pearl paper" },
     { name: "🕯 Candle Night", mode: "night", desc: "Soft amber shadow and intimate vintage warmth" },
-    { name: "☕ Cozy Café", mode: "day", desc: "Relaxing, quiet morning with hot espresso colors" },
-    { name: "🌸 Spring Paper", mode: "day", desc: "Gentle green tea leaf paper with fresh petals" },
-    { name: "🌙 Quiet Midnight", mode: "night", desc: "Calm starfield cosmos for midnight quietness" },
+    { name: "🌙 Quiet Midnight", mode: "night", desc: "Calm starfield cosmos for midnight quietness" }
   ];
 
   return (
@@ -192,49 +189,90 @@ export default function SanctuaryIntro({
 
         {/* WELCOME */}
         {step === 0 && (
-          <div className="text-center py-6 flex flex-col items-center">
-            <span className="text-rose-500 text-5xl md:text-6xl animate-pulse block mb-6">❤️</span>
-            <h1 className="font-serif text-4xl md:text-5xl tracking-tight leading-tight select-none mt-2 font-light">
-              Close From Far
-            </h1>
-            <p className="font-serif text-[#3E2723]/35 italic text-sm md:text-base mt-2 transition-all block">
-              Create Your Sanctuary
-            </p>
-            
-            <div className="my-8 max-w-sm space-y-3">
-              <p className="font-serif italic text-lg leading-relaxed text-current/80">
-                "Not every feeling belongs inside a notification."
-              </p>
-              <p className="font-serif italic text-base leading-relaxed text-current/80 opacity-80 pt-1">
-                "Some deserve paper."
-              </p>
+          <div className="text-center py-10 flex flex-col items-center max-w-[600px] mx-auto">
+            {/* Tag/Logo */}
+            <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-6 font-serif text-xs uppercase tracking-widest select-none ${
+              isNightMode ? "text-[#E69B82] bg-white/5 border border-white/5" : "text-[#B71C1C] bg-red-50/60 border border-red-100"
+            }`}>
+              <span>❤️</span>
+              <span className="font-semibold">Close From Far</span>
             </div>
 
-            <button
-              onClick={() => handleNextStep(1)}
-              className={`cursor-pointer font-serif tracking-widest text-sm font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4.5 rounded-full border ${
-                isNightMode
-                  ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5] hover:bg-[#4C2825] hover:-translate-y-0.5"
-                  : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95] hover:bg-[#ECD0C9] hover:-translate-y-0.5"
-              }`}
-            >
-              <span>Begin</span>
-              <ArrowRight size={14} />
-            </button>
+            {/* Headline */}
+            <h1 className={`font-serif text-[36px] md:text-[56px] font-extrabold tracking-[-0.4px] leading-none mb-4 select-none max-w-[580px] ${
+              isNightMode ? "text-white" : "text-[#3E2723]"
+            }`}>
+              Write something they'll keep forever.
+            </h1>
+
+            {/* Subheadline / paragraph */}
+            <p className={`text-base md:text-lg max-w-[500px] mx-auto mb-10 font-sans tracking-wide leading-relaxed ${
+              isNightMode ? "text-[#D3C4B4]/85" : "text-[#5D4037]/75"
+            }`}>
+              For the words that deserve more than a text.
+            </p>
+
+            {/* Action */}
+            <div className="mb-12">
+              <button
+                onClick={() => {
+                  trackEvent("begin_clicked");
+                  handleNextStep(1);
+                }}
+                className={`cursor-pointer font-sans tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4.5 rounded-full border active:scale-98 ${
+                  isNightMode
+                    ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5] hover:bg-[#4C2825] shadow-lg"
+                    : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95] hover:bg-[#ECD0C9] shadow-md"
+                }`}
+              >
+                <span>Begin</span>
+                <ArrowRight size={12} />
+              </button>
+            </div>
+
+            {/* Visual: One beautiful paper preview below. */}
+            <div className="w-full max-w-sm mt-4 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+              <p className={`text-[10px] font-mono tracking-widest uppercase mb-3 opacity-50 ${
+                isNightMode ? "text-[#E69B82]" : "text-[#5D4037]"
+              }`}>
+                One beautiful paper preview below
+              </p>
+              
+              <div className={`p-6 rounded-2xl border relative overflow-hidden text-left shadow-sm transition-all duration-500 ${
+                isNightMode 
+                  ? "bg-[#251A18]/80 border-white/5 shadow-2xl" 
+                  : "bg-[#FAF7F2] border-[#F2ECE4] shadow-sm"
+              }`}>
+                {/* Deckled border trim outline */}
+                <div className="absolute inset-3 border border-dashed border-current/8 rounded-xl pointer-events-none" />
+                
+                {/* Paper Lines */}
+                <div className="space-y-3 font-serif italic text-sm md:text-base opacity-75">
+                  <div className={`h-2.5 w-1/3 rounded opacity-40 ${isNightMode ? "bg-[#E69B82]" : "bg-[#5D4037]"}`} />
+                  <div className={`h-2 w-full rounded opacity-25 ${isNightMode ? "bg-[#E69B82]" : "bg-[#5D4037]"}`} />
+                  <div className={`h-2 w-5/6 rounded opacity-25 ${isNightMode ? "bg-[#E69B82]" : "bg-[#5D4037]"}`} />
+                  <div className={`h-2 w-4/5 rounded opacity-25 ${isNightMode ? "bg-[#E69B82]" : "bg-[#5D4037]"}`} />
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
         {/* STEP 1: Who are you writing for? */}
         {step === 1 && (
-          <div className="text-center py-4 flex flex-col items-center">
-            <h2 className="font-serif text-3xl md:text-4xl text-current tracking-tight font-medium mb-2">
+          <div className="text-center py-10 flex flex-col items-center max-w-[600px] mx-auto">
+            <h2 className={`font-serif text-[32px] sm:text-[42px] tracking-tight font-extrabold leading-[1.05] mb-3 ${
+              isNightMode ? "text-white" : "text-[#3E2723]"
+            }`}>
               Who are you writing for?
             </h2>
-            <p className="font-serif italic text-sm text-current/50 mb-8">
+            <p className={`text-base md:text-lg max-w-[500px] mx-auto mb-10 font-sans opacity-75 ${
+              isNightMode ? "text-[#D3C4B4]" : "text-[#5D4037]"
+            }`}>
               The recipient of your letters.
             </p>
-
-            <div className="w-full max-w-md mb-8">
+ 
+            <div className="w-full max-w-md mb-10">
               <input
                 type="text"
                 value={writingFor}
@@ -264,14 +302,14 @@ export default function SanctuaryIntro({
                 ))}
               </div>
             </div>
-
+ 
             <button
               onClick={() => handleNextStep(2)}
               disabled={!writingFor.trim()}
-              className={`cursor-pointer font-serif tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4 rounded-full border ${
+              className={`cursor-pointer font-sans tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4 rounded-full border ${
                 isNightMode
-                  ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5]"
-                  : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95]"
+                  ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5] hover:bg-[#4C2825]"
+                  : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95] hover:bg-[#ECD0C9]"
               } disabled:opacity-40 disabled:cursor-not-allowed`}
             >
               <span>Continue</span>
@@ -279,18 +317,22 @@ export default function SanctuaryIntro({
             </button>
           </div>
         )}
-
+ 
         {/* STEP 2: What do you call them? */}
         {step === 2 && (
-          <div className="text-center py-4 flex flex-col items-center">
-            <h2 className="font-serif text-3xl md:text-4xl text-current tracking-tight font-medium mb-2">
+          <div className="text-center py-10 flex flex-col items-center max-w-[600px] mx-auto">
+            <h2 className={`font-serif text-[32px] sm:text-[42px] tracking-tight font-extrabold leading-[1.05] mb-3 ${
+              isNightMode ? "text-white" : "text-[#3E2723]"
+            }`}>
               What do you call them?
             </h2>
-            <p className="font-serif italic text-sm text-current/50 mb-8">
+            <p className={`text-base md:text-lg max-w-[500px] mx-auto mb-10 font-sans opacity-75 ${
+              isNightMode ? "text-[#D3C4B4]" : "text-[#5D4037]"
+            }`}>
               A private term of endearment, or standard greeting label.
             </p>
-
-            <div className="w-full max-w-md mb-8">
+ 
+            <div className="w-full max-w-md mb-10">
               <input
                 type="text"
                 value={nickname}
@@ -319,22 +361,22 @@ export default function SanctuaryIntro({
                 ))}
               </div>
             </div>
-
+ 
             <div className="flex items-center gap-4">
               <button
                 type="button"
                 onClick={() => handleNextStep(1)}
-                className={`font-serif text-xs opacity-60 hover:opacity-100 px-6 py-3`}
+                className={`font-sans tracking-wider text-xs uppercase opacity-60 hover:opacity-100 px-6 py-3`}
               >
                 Back
               </button>
               <button
                 onClick={() => handleNextStep(3)}
                 disabled={!nickname.trim()}
-                className={`cursor-pointer font-serif tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4 rounded-full border ${
+                className={`cursor-pointer font-sans tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4 rounded-full border ${
                   isNightMode
-                    ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5]"
-                    : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95]"
+                    ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5] hover:bg-[#4C2825]"
+                    : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95] hover:bg-[#ECD0C9]"
                 } disabled:opacity-40 disabled:cursor-not-allowed`}
               >
                 <span>Continue</span>
@@ -346,18 +388,22 @@ export default function SanctuaryIntro({
 
         {/* STEP 3: Where are your hearts today? */}
         {step === 3 && (
-          <div className="text-center py-4 flex flex-col items-center">
-            <h2 className="font-serif text-3xl md:text-4xl text-current tracking-tight font-medium mb-1">
+          <div className="text-center py-10 flex flex-col items-center max-w-[600px] mx-auto">
+            <h2 className={`font-serif text-[32px] sm:text-[42px] tracking-tight font-extrabold leading-[1.05] mb-3 ${
+              isNightMode ? "text-white" : "text-[#3E2723]"
+            }`}>
               Where are your hearts today?
             </h2>
-            <p className="font-serif italic text-sm text-current/50 mb-8">
+            <p className={`text-base md:text-lg max-w-[500px] mx-auto mb-10 font-sans opacity-75 ${
+              isNightMode ? "text-[#D3C4B4]" : "text-[#5D4037]"
+            }`}>
               We'll display the coordinates and local times of your cities dynamically.
             </p>
-
-            <div className="w-full max-w-lg mb-8 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+ 
+            <div className="w-full max-w-lg mb-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               
               <div className="flex flex-col text-left">
-                <label className="text-[10px] uppercase tracking-wider opacity-60 mb-2 font-mono">Your City (Firdavs)</label>
+                <label className="text-[10px] uppercase tracking-wider opacity-50 mb-2 font-mono">Your City (Firdavs)</label>
                 <input
                   type="text"
                   value={cityA}
@@ -368,9 +414,9 @@ export default function SanctuaryIntro({
                   }`}
                 />
               </div>
-
+ 
               <div className="flex flex-col text-left">
-                <label className="text-[10px] uppercase tracking-wider opacity-60 mb-2 font-mono">Their City ({writingFor})</label>
+                <label className="text-[10px] uppercase tracking-wider opacity-50 mb-2 font-mono">Their City ({writingFor})</label>
                 <input
                   type="text"
                   value={cityB}
@@ -381,11 +427,11 @@ export default function SanctuaryIntro({
                   }`}
                 />
               </div>
-
+ 
             </div>
-
+ 
             {/* Soft animated distance connector */}
-            <div className="w-full max-w-md py-4 px-6 rounded-2xl bg-current/5 border border-current/5 mb-8 flex flex-col items-center">
+            <div className="w-full max-w-md py-5 px-6 rounded-2xl bg-current/5 border border-current/5 mb-10 flex flex-col items-center">
               <div className="flex items-center gap-3 w-full justify-center">
                 <span className="font-serif font-medium text-sm text-current/80">{cityA || "Here"}</span>
                 <div className="flex-1 flex items-center justify-center">
@@ -397,7 +443,7 @@ export default function SanctuaryIntro({
               </div>
               
               <div className="mt-4 flex items-center gap-2">
-                <span className="text-[11px] uppercase tracking-widest opacity-50 font-mono">Distance Input:</span>
+                <span className="text-[10px] uppercase tracking-widest opacity-50 font-mono">Distance Input:</span>
                 <input 
                   type="text" 
                   value={distanceInput}
@@ -406,22 +452,22 @@ export default function SanctuaryIntro({
                 />
               </div>
             </div>
-
+ 
             <div className="flex items-center gap-4">
               <button
                 type="button"
                 onClick={() => handleNextStep(2)}
-                className={`font-serif text-xs opacity-60 hover:opacity-100 px-6 py-3`}
+                className={`font-sans tracking-wider text-xs uppercase opacity-60 hover:opacity-100 px-6 py-3`}
               >
                 Back
               </button>
               <button
                 onClick={() => handleNextStep(4)}
                 disabled={!cityA.trim() || !cityB.trim()}
-                className={`cursor-pointer font-serif tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4 rounded-full border ${
+                className={`cursor-pointer font-sans tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4 rounded-full border ${
                   isNightMode
-                    ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5]"
-                    : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95]"
+                    ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5] hover:bg-[#4C2825]"
+                    : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95] hover:bg-[#ECD0C9]"
                 } disabled:opacity-40 disabled:cursor-not-allowed`}
               >
                 <span>Continue</span>
@@ -433,21 +479,25 @@ export default function SanctuaryIntro({
 
         {/* STEP 4: Why are you here today? */}
         {step === 4 && (
-          <div className="text-center py-4 flex flex-col items-center w-full">
-            <h2 className="font-serif text-2xl md:text-3.5xl text-current tracking-tight font-medium mb-1">
+          <div className="text-center py-10 flex flex-col items-center max-w-[600px] mx-auto w-full">
+            <h2 className={`font-serif text-[32px] sm:text-[42px] tracking-tight font-extrabold leading-[1.05] mb-3 ${
+              isNightMode ? "text-white" : "text-[#3E2723]"
+            }`}>
               Why are you here today?
             </h2>
-            <p className="font-serif italic text-sm text-current/50 mb-6">
+            <p className={`text-base md:text-lg max-w-[500px] mx-auto mb-10 font-sans opacity-75 ${
+              isNightMode ? "text-[#D3C4B4]" : "text-[#5D4037]"
+            }`}>
               This helps tune the subtle sanctuary atmosphere.
             </p>
-
-            <div className="w-full space-y-2.5 max-h-[320px] overflow-y-auto mb-8 pr-1">
+ 
+            <div className="w-full space-y-3 mb-10">
               {reasons.map((rs) => (
                 <button
                   key={rs.title}
                   type="button"
                   onClick={() => setReason(rs.title)}
-                  className={`w-full p-4 rounded-2xl text-left border cursor-pointer transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-2 transform ${
+                  className={`w-full p-5 rounded-2xl text-left border cursor-pointer transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-4 transform ${
                     reason === rs.title
                       ? isNightMode
                         ? "bg-[#3B1E1C] border-[#8D5E54] hover:border-[#E8BDB5]"
@@ -469,21 +519,21 @@ export default function SanctuaryIntro({
                 </button>
               ))}
             </div>
-
+ 
             <div className="flex items-center gap-4">
               <button
                 type="button"
                 onClick={() => handleNextStep(3)}
-                className={`font-serif text-xs opacity-60 hover:opacity-100 px-6 py-3`}
+                className={`font-sans tracking-wider text-xs uppercase opacity-60 hover:opacity-100 px-6 py-3`}
               >
                 Back
               </button>
               <button
                 onClick={() => handleNextStep(5)}
-                className={`cursor-pointer font-serif tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4 rounded-full border ${
+                className={`cursor-pointer font-sans tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4 rounded-full border ${
                   isNightMode
-                    ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5]"
-                    : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95]"
+                    ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5] hover:bg-[#4C2825]"
+                    : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95] hover:bg-[#ECD0C9]"
                 }`}
               >
                 <span>Continue</span>
@@ -492,24 +542,28 @@ export default function SanctuaryIntro({
             </div>
           </div>
         )}
-
+ 
         {/* STEP 5: How should your sanctuary feel? */}
         {step === 5 && (
-          <div className="text-center py-4 flex flex-col items-center w-full">
-            <h2 className="font-serif text-2xl md:text-3.5xl text-current tracking-tight font-medium mb-1">
+          <div className="text-center py-10 flex flex-col items-center max-w-[600px] mx-auto w-full">
+            <h2 className={`font-serif text-[32px] sm:text-[42px] tracking-tight font-extrabold leading-[1.05] mb-3 ${
+              isNightMode ? "text-white" : "text-[#3E2723]"
+            }`}>
               How should your sanctuary feel?
             </h2>
-            <p className="font-serif italic text-sm text-current/50 mb-6">
+            <p className={`text-base md:text-lg max-w-[500px] mx-auto mb-10 font-sans opacity-75 ${
+              isNightMode ? "text-[#D3C4B4]" : "text-[#5D4037]"
+            }`}>
               Watch the background change live to reflect your selection.
             </p>
-
-            <div className="w-full space-y-2.5 max-h-[300px] overflow-y-auto mb-8 pr-1">
+ 
+            <div className="w-full space-y-3 mb-10">
               {feels.map((fl) => (
                 <button
                   key={fl.name}
                   type="button"
                   onClick={() => setSelectedFeel(fl.name)}
-                  className={`w-full p-4 rounded-2xl text-left border cursor-pointer transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-2 transform ${
+                  className={`w-full p-5 rounded-2xl text-left border cursor-pointer transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-4 transform ${
                     selectedFeel === fl.name
                       ? isNightMode
                         ? "bg-[#3B1E1C] border-[#8D5E54] hover:border-[#E8BDB5]"
@@ -536,16 +590,16 @@ export default function SanctuaryIntro({
               <button
                 type="button"
                 onClick={() => handleNextStep(4)}
-                className={`font-serif text-xs opacity-60 hover:opacity-100 px-6 py-3`}
+                className={`font-sans tracking-wider text-xs uppercase opacity-60 hover:opacity-100 px-6 py-3`}
               >
                 Back
               </button>
               <button
                 onClick={() => handleNextStep(6)}
-                className={`cursor-pointer font-serif tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4 rounded-full border ${
+                className={`cursor-pointer font-sans tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2 transition-all duration-300 px-10 py-4 rounded-full border ${
                   isNightMode
-                    ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5]"
-                    : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95]"
+                    ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5] hover:bg-[#4C2825]"
+                    : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95] hover:bg-[#ECD0C9]"
                 }`}
               >
                 <span>Continue</span>
@@ -554,18 +608,31 @@ export default function SanctuaryIntro({
             </div>
           </div>
         )}
-
+ 
         {/* STEP 6: Display sanctuary ready summary */}
         {step === 6 && (
-          <div className="text-center py-6 flex flex-col items-center">
-            <span className="text-rose-500 text-5xl md:text-6xl animate-bounce block mb-6">❤️</span>
+          <div className="text-center py-10 flex flex-col items-center max-w-[600px] mx-auto">
+            {/* Elegant Tag/Logo */}
+            <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-6 font-serif text-xs uppercase tracking-widest select-none ${
+              isNightMode ? "text-[#E69B82] bg-white/5 border border-white/5" : "text-[#B71C1C] bg-red-50/60 border border-red-100"
+            }`}>
+              <span>❤️</span>
+              <span className="font-semibold">Sanctuary Built</span>
+            </div>
             
-            <h2 className="font-serif text-3xl md:text-4xl text-current tracking-tight font-light leading-tight select-none">
+            <h2 className={`font-serif text-[32px] sm:text-[42px] tracking-tight font-extrabold leading-[1.05] mb-3 ${
+              isNightMode ? "text-white" : "text-[#3E2723]"
+            }`}>
               Your sanctuary is ready.
             </h2>
+            <p className={`text-base md:text-lg max-w-[500px] mx-auto mb-10 font-sans opacity-75 ${
+              isNightMode ? "text-[#D3C4B4]" : "text-[#5D4037]"
+            }`}>
+              "One day, you'll both come back and read these words again."
+            </p>
             
             {/* Elegant Luxury summary box */}
-            <div className="my-8 w-full max-w-sm rounded-2xl bg-current/5 border border-current/5 p-6 space-y-4 text-left">
+            <div className="my-8 w-full max-w-sm rounded-2xl bg-current/5 border border-current/5 p-6 space-y-4 text-left font-sans">
               <div className="flex justify-between items-center pb-2.5 border-b border-current/10">
                 <span className="text-[11px] uppercase tracking-wider opacity-60 font-mono">Beloved Partner</span>
                 <span className="font-serif font-bold text-sm text-red-600 flex items-center gap-1">
@@ -578,25 +645,19 @@ export default function SanctuaryIntro({
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-[11px] uppercase tracking-wider opacity-60 font-mono">Selected Atmosphere</span>
-                <span className="font-serif font-bold text-sm text-current/90">{selectedFeel}</span>
+                <span className="font-serif font-bold text-sm text-[#FF8F00]">{selectedFeel}</span>
               </div>
             </div>
-
-            <div className="my-6 max-w-sm">
-              <p className="font-serif italic text-base leading-relaxed text-current/75">
-                "One day, you'll both come back and read these words again."
-              </p>
-            </div>
-
+ 
             <button
               onClick={handleFinalize}
-              className={`cursor-pointer font-serif tracking-widest text-sm font-semibold uppercase flex items-center justify-center gap-2.5 transition-all duration-300 px-12 py-5 rounded-full border ${
+              className={`cursor-pointer font-sans tracking-widest text-xs font-semibold uppercase flex items-center justify-center gap-2.5 transition-all duration-300 px-12 py-5 rounded-full border ${
                 isNightMode
                   ? "bg-[#3B1E1C] text-[#F3D7D2] border-[#5A312D] hover:border-[#E8BDB5] hover:bg-[#4C2825] hover:-translate-y-0.5 shadow-lg shadow-black/30"
                   : "bg-[#F3D7D2] text-[#4A2522] border-[#E8BDB5] hover:border-[#DF9F95] hover:bg-[#ECD0C9] hover:-translate-y-0.5 shadow-md shadow-red-200/20"
               }`}
             >
-              <span>Open Our Sanctuary</span>
+              <span>Begin</span>
               <Heart size={14} fill="currentColor" />
             </button>
           </div>
