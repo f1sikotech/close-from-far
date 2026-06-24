@@ -92,6 +92,6 @@ Every suggestion, bug report, and love story helps shape the next version.
 
 If you enjoy my products or want to support future ones:
 
-☕ https://buymeacoffee.com/f1sikotech
+☕ https://buymeacoffee.com/f1siko
 
 Made with ❤️ by F1SIKO
