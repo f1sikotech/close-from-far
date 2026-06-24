@@ -1,112 +1,91 @@
-<div align="center">
+# 💌 Close From Far
 
-# ❤️ Close From Far
+> A private space where distance becomes letters.
 
-### Because distance shouldn't feel so far.
+Not every feeling belongs inside a notification.
 
-A quiet place for two people to write, save, and share heartfelt letters.
+Close From Far is a tiny sanctuary for long-distance couples who want to slow down and write meaningful letters to each other.
 
-No feeds.
+---
+
+## ✨ How it works
+
+### 1. Create your sanctuary
+
+Answer a few simple questions:
+
+- Your name
+- Your partner's name
+- Your cities
+- The distance between you
+
+Your private space is created instantly.
+
+---
+
+### 2. Write a letter
+
+Forget chat bubbles.
+
+Write a real letter, one word at a time.
+
+No pressure.
+No feed.
 No distractions.
-Just words that matter.
-
-</div>
 
 ---
 
-## Why
+### 3. Seal & Send
 
-Long-distance relationships are built on small moments.
+When you're ready, seal your letter and send it.
 
-Close From Far creates a calm digital space where couples can leave messages, express feelings, and stay connected no matter where they are.
-
----
-
-## Features
-
-- 💌 Write beautiful love letters
-- 🌙 Minimal and distraction-free experience
-- ✨ Smooth and elegant interface
-- 🔒 Private conversations
-- 📱 Works on desktop and mobile
+Every letter becomes a small memory waiting to be opened.
 
 ---
 
-## Tech Stack
+### 4. Share the sanctuary
 
+Send the link to your partner.
+
+Now you both have a quiet place that belongs only to the two of you.
+
+---
+
+## ❤️ Why I built this
+
+My girlfriend and I live far apart.
+
+After sending "I miss you" thousands of times, those words started feeling like another notification.
+
+I wanted them to feel special again.
+
+So I built Close From Far.
+
+---
+
+## 🌍 Live
+
+https://close-from-far.vercel.app
+
+---
+
+## 🚀 Built with
+
+- React
 - TypeScript
 - Vite
-- Gemini API
-- Modern Web Technologies
+- Vercel
 
 ---
 
-## Getting Started
+## 📝 Status
 
-Clone the repository
+Version: **v1**
 
-```bash
-git clone https://github.com/f1sikotech/close-from-far.git
-```
+I'm building this in public and improving it from real user feedback.
 
-Install dependencies
-
-```bash
-npm install
-```
-
-Create an environment file
-
-```bash
-cp .env.example .env.local
-```
-
-Add your API key
-
-```env
-GEMINI_API_KEY=your_api_key
-```
-
-Start the development server
-
-```bash
-npm run dev
-```
+Every suggestion, bug report, and love story helps shape the next version.
 
 ---
 
-## Philosophy
-
-Technology should make people feel closer, not busier.
-
-Close From Far is designed around one simple idea:
-
-> Less scrolling. More feeling.
-
----
-
-## Roadmap
-
-- [ ] Shared memory timeline
-- [ ] Voice letters
-- [ ] Couple themes
-- [ ] Anniversary reminders
-- [ ] End-to-end encrypted conversations
-
----
-
-## Contributing
-
-Ideas, feedback, and pull requests are always welcome.
-
-If this project made you smile, consider giving it a ⭐.
-
----
-
-<div align="center">
-
-Built with ❤️ by **F1SIKO**
-
-**Design. Build. Ship. Repeat.**
-
-</div>
+Made with ❤️ by F1SIKO
