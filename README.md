@@ -1,20 +1,61 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# 💌 Close From Far
 
-# Run and deploy your AI Studio app
+> Some words deserve more than a text.
 
-This contains everything you need to run your app locally.
+A private space where distance becomes letters.
 
-View your app in AI Studio: https://ai.studio/apps/de1505d6-4730-447c-b896-ee93523580fc
+---
 
-## Run Locally
+## Features
 
-**Prerequisites:**  Node.js
+- Beautiful handwritten letters
+- Private sanctuary
+- Shareable link
+- Distance & timezone
+- Minimal experience
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Stack
+
+- React
+- TypeScript
+- Vite
+- Vercel
+
+---
+
+## Run
+
+```bash
+npm install
+npm run dev
+```
+
+Build:
+
+```bash
+npm run build
+```
+
+---
+
+## Live
+
+https://close-from-far.vercel.app
+
+---
+
+## Philosophy
+
+No likes.
+
+No feeds.
+
+No algorithms.
+
+Just two people and their words.
+
+---
+
+Built by **F1SIKO** ⚡
